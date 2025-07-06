@@ -40,4 +40,4 @@ const Register = async (req, res) => {
     }
 };
 
-module.exports = {register};
+module.exports = { Register };
