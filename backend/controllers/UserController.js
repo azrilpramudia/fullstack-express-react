@@ -1,10 +1,41 @@
 const express = require("express");
+const prisma = require("../prisma/client");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
-const prisma = require("../prisma/client");
 
-//function register
-const register = async (req, res) => {
+//function findUsers
+const findUsers = async (req, res) => {
+    try {
+
+        //get all users from database
+        const users = await prisma.user.findMany({
+            select: {
+                id: true,
+                name: true,
+                email: true,
+            },
+            orderBy: {
+                id: "desc",
+            },
+        });
+
+        //send response
+        res.status(200).send({
+            success: true,
+            message: "Get all users successfully",
+            data: users,
+        });
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: "Internal server error",
+        });
+    }
+};
+
+//function createUser
+const createUser = async (req, res) => {
 
     // Periksa hasil validasi
     const errors = validationResult(req);
@@ -22,6 +53,7 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
     try {
+
         //insert data
         const user = await prisma.user.create({
             data: {
@@ -31,12 +63,12 @@ const register = async (req, res) => {
             },
         });
 
-        //return response json
         res.status(201).send({
             success: true,
-            message: "Register successfully",
+            message: "User created successfully",
             data: user,
         });
+
     } catch (error) {
         res.status(500).send({
             success: false,
@@ -45,4 +77,4 @@ const register = async (req, res) => {
     }
 };
 
-module.exports = {register};
+module.exports = { findUsers, createUser };

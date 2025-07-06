@@ -4,13 +4,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const prisma = require("../prisma/client");
 
-//function Login
+//function login
 const login = async (req, res) => {
-    // periksa hasil validasi
+    // Periksa hasil validasi
     const errors = validationResult(req);
 
-    if(!errors.isEmpty()) {
-        // jika ada error, kembalikan ke pengguna
+    if (!errors.isEmpty()) {
+        // Jika ada error, kembalikan error ke pengguna
         return res.status(422).json({
             success: false,
             message: "Validation error",
@@ -19,6 +19,7 @@ const login = async (req, res) => {
     }
 
     try {
+
         //find user
         const user = await prisma.user.findFirst({
             where: {
@@ -38,7 +39,7 @@ const login = async (req, res) => {
                 success: false,
                 message: "User not found",
             });
-        
+
         //compare password
         const validPassword = await bcrypt.compare(
             req.body.password,
@@ -52,20 +53,20 @@ const login = async (req, res) => {
                 message: "Invalid password",
             });
 
-        //generate token jwt
+        //generate token JWT
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
             expiresIn: "1h",
         });
 
-        // destruction to remove password from user object
-        const { password, ...useWithoutPassword } = user;
+        // Destructure to remove password from user object
+        const { password, ...userWithoutPassword } = user;
 
         //return response
         res.status(200).send({
             success: true,
-            message: "Login succesfully",
+            message: "Login successfully",
             data: {
-                user: useWithoutPassword,
+                user: userWithoutPassword,
                 token: token,
             },
         });
@@ -77,4 +78,4 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { login }
+module.exports = { login };
