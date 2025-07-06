@@ -127,4 +127,5 @@ npm run dev
 
 ---
 
-## This Project Course <a href="www.santrikoding.com">
+## This Project Course
+Kunjungi [SantriKoding](https://www.santrikoding.com)
