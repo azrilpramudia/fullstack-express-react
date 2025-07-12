@@ -7,14 +7,15 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(!!Cookies.get('token'));
 
     useEffect(() => {
-        const handleTokenChange = () => {
-            setIsAuthenticated(!!Cookies.get('token'));
-        };
+        const interval = setInterval(() => {
+            const tokenExists = !!Cookies.get('token');
+            setIsAuthenticated(prev => {
+                if (prev !== tokenExists) return tokenExists;
+                return prev;
+            });
+        }, 1000); // cek setiap 1 detik
 
-        window.addEventListener('storage', handleTokenChange);
-        return () => {
-            window.removeEventListener('storage', handleTokenChange);
-        };
+        return () => clearInterval(interval);
     }, []);
 
     return (
