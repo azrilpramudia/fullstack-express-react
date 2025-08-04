@@ -4,7 +4,7 @@ Fullstack web application built with:
 
 - 🖥️ **Frontend**: React.js (Vite + Tailwind CSS)
 - 🔧 **Backend**: Node.js + Express + Prisma ORM
-- 🛢️ **Database**: MySQL / PostgreSQL
+- 🛢️ **Database**: MySQL
 - 🔐 **Authentication**: JWT
 - ✅ **Validation**: express-validator
 
