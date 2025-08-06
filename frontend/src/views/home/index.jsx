@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function Home() {
+const Home = () => {
   return (
     <div className="p-5 mb-4 bg-light rounded-3 shadow-sm">
       <div className="container-fluid py-5">
@@ -16,4 +16,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;
