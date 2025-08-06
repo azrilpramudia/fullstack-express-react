@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 
-export default function Register() {
+const Register = () => {
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -97,4 +97,6 @@ export default function Register() {
       </div>
     </div>
   );
-}
+};
+
+export default Register;
